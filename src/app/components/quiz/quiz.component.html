@@ -1,0 +1,64 @@
+<div>
+  <h1>{{ quiz.name }}</h1>
+  <h3>{{ quiz.description }}</h3>
+  <hr />
+  <div class="mb-5">
+    <div class="progress">
+      <div
+        aria-valuemin="0"
+        aria-valuemax="100"
+        class="progress-bar progress-bar-striped progress-bar-animated"
+        [style.width]="
+          ((this.currentIndex + 1) / this.quiz.questions.length) * 100 + '%'
+        "
+      >
+        {{ ((this.currentIndex + 1) / this.quiz.questions.length) * 100 + "%" }}
+      </div>
+    </div>
+  </div>
+  <!-- BEGIN AFFICHER LES QUESTION -->
+  <div class="mb-4">
+    <h5 class="mb-3">
+      {{ currentIndex + 1 }}).{{ quiz.questions[currentIndex].name }} :
+    </h5>
+    @for (option of quiz.questions[currentIndex].options; track $index) {
+    <div class="mb-3">
+      <input type="checkbox" class="form-check-input" />
+      <strong> {{ option.name }}</strong>
+    </div>
+    }
+  </div>
+  <!-- END AFFICHER LES QUESTION -->
+
+  <hr />
+  <!-- BEGIN PAGINATION -->
+  <div class="d-flex justify-content-center">
+    <ul class="pagination">
+      <li class="page-item">
+        <a
+          [class.disabled]="currentIndex === 0"
+          (click)="goto(currentIndex - 1)"
+          class="page-link"
+          href="#"
+          >&laquo; précédent</a
+        >
+      </li>
+      @for (option of quiz.questions; track $index) {
+      <li class="page-item" [class.active]="currentIndex === $index">
+        <a class="page-link" (click)="goto($index)">{{ $index + 1 }}</a>
+      </li>
+      }
+
+      <li class="page-item">
+        <a
+          [class.disabled]="currentIndex >= this.quiz.questions.length - 1"
+          (click)="goto(currentIndex + 1)"
+          class="page-link"
+          href="#"
+          >suivant &raquo;</a
+        >
+      </li>
+    </ul>
+  </div>
+  <!-- END PAGINATION -->
+</div>
